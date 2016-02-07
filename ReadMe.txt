@@ -9,10 +9,13 @@
 - Undo/Redo in editor
 - Add a "test level" button in editor
 - Clean-up in backups
+- Have a Python 3+ version
 
 # TOFIX
 - Unlock done level even if no highscore has been recorded
 - Key translations for all keyboard layouts
+
+Tested with Ubuntu 14.04 / Python 2.7.6
 
 * ----------------------------------------------------------------- *
 
@@ -29,7 +32,6 @@ If you're done with the default Custom set, simply rename it in the user_circuit
 A new Custom file will automatically be created to start the new set
 
 # How to remove a level or a set?
-TODO!
 There's no other choice at the moment but to open the set file in the user_circuits folder to remove it.
 To remove a set, remove the set file in the user_circuits folder.
 
