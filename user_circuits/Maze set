@@ -1,17 +1,3 @@
-name=level Loom
-author=Maze
-boardtimer=600
-launchtimer=4
-colors=2,3,4,6
-+---+---+---+---+---+---+---+---+
-|   |   |   |   |   |   |O5 |   |
-|   |   |   |   |%  |   | 5 |   |
-| 6 | a | a | a | a | a |O9 |   |
-| 5 |   |   |   |   |   |   |   |
-| 5 |   |   |   |   |   |   |   |
-|O3 | a | a | a | a | a | a |O8 |
-+---+---+---+---+---+---+---+---+
-
 name=Multiplied
 author=Maze
 boardtimer=250
@@ -104,7 +90,7 @@ name=More
 author=Maze
 boardtimer=600
 launchtimer=6
-maxmarbles=20
+maxmarbles=30
 colors=2,3,4,6
 stoplight=4,2,5
 +---+---+---+---+---+---+---+---+
@@ -114,21 +100,5 @@ stoplight=4,2,5
 |   |   |   |26v|Oe | 9 |   |!  |
 |   |   |   |*54|O1 |   |   |   |
 |O2 | a | a | 9 |   |   |   |   |
-+---+---+---+---+---+---+---+---+
-
-name=Custom level test
-author=Maze
-boardtimer=600
-launchtimer=6
-maxmarbles=10
-colors=2,3,4,6
-stoplight=6,4,3
-+---+---+---+---+---+---+---+---+
-|   | 5 |   |   |=40|   |   |   |
-|   |O5 |   |   | 5 |   |   |%  |
-|   | 3 |Oa | c |O7 |O8 |   |   |
-|   |   |   |=10|O1 |   |   |!  |
-|   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |
 +---+---+---+---+---+---+---+---+
 
