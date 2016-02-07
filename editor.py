@@ -1869,7 +1869,8 @@ class IntroScreen:
 			play_sound( menu_select)
 			self.draw_menu()
 		elif i == 5:
-			os.system('python pathological.py &')
+			if colorblind == 1: os.system('python pathological.py -cb &')
+			else: os.system('python pathological.py &')
 			return -1
 		elif i == 6:
 			return -1

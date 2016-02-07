@@ -2157,7 +2157,8 @@ class IntroScreen:
 			play_sound( menu_select)
 			self.draw_menu()
 		elif i == 6:
-			os.system('python editor.py &')
+			if colorblind == 1: os.system('python editor.py -cb &')
+			else: os.system('python editor.py &')
 			return -1
 		elif i == 7:
 			return -1
