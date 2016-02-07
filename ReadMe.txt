@@ -1,6 +1,7 @@
 # CHANGES
 - Adds ability to play different levelsets to original game
 - Adds a level editor to original game
+- Adds hotkeys to increase/decrease music volume: '+' and '-'
 
 # TODO
 - Ability to remove a level graphically
