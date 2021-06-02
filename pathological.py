@@ -378,7 +378,7 @@ def load_images():
 	Board.launcher_v = load_image('launcher-v.png', None,
 		(marble_size, vert_tiles * tile_size + marble_size))
 	Board.launcher_corner = load_image('launcher-corner.png', (255,0,0),
-		((tile_size-marble_size)/2+marble_size,marble_size))
+		((tile_size-marble_size)//2+marble_size,marble_size))
 	Board.launcher_entrance = load_image('entrance.png', -1,
 		(tile_size,marble_size))
 
@@ -980,7 +980,7 @@ class Board:
 			launch_timer_pos[1] + timer_height - timer_margin
 
 		# Fill up the launch queue
-		for i in range( vert_tiles * tile_size / marble_size + 2):
+		for i in range( vert_tiles * tile_size // marble_size + 2):
 			self.launch_queue.append(random.choice(self.colors))
 
 		# Create The Background
@@ -1247,11 +1247,11 @@ class Board:
 			effective_cx = cx
 			effective_cy = cy + marble_size
 		else:
-			effective_cx = cx + marble_size/2 * dirs[marble.direction][0]
-			effective_cy = cy + marble_size/2 * dirs[marble.direction][1]
+			effective_cx = cx + marble_size//2 * dirs[marble.direction][0]
+			effective_cy = cy + marble_size//2 * dirs[marble.direction][1]
 
-		tile_x = effective_cx / tile_size
-		tile_y = effective_cy / tile_size
+		tile_x = effective_cx // tile_size
+		tile_y = effective_cy // tile_size
 		tile_xr = cx - tile_x * tile_size
 		tile_yr = cy - tile_y * tile_size
 
@@ -1275,8 +1275,8 @@ class Board:
 
 	def click(self, pos):
 		# Determine which tile the pointer is in
-		tile_x = (pos[0] - self.pos[0]) / tile_size
-		tile_y = (pos[1] - self.pos[1]) / tile_size
+		tile_x = (pos[0] - self.pos[0]) // tile_size
+		tile_y = (pos[1] - self.pos[1]) // tile_size
 		tile_xr = pos[0] - self.pos[0] - tile_x * tile_size
 		tile_yr = pos[1] - self.pos[1] - tile_y * tile_size
 		if tile_x >= 0 and tile_x < horiz_tiles and \
@@ -2121,7 +2121,7 @@ class IntroScreen:
 					if pos[0] < self.menu_pos[0]: continue
 					if pos[0] >= self.menu_pos[0] + self.menu_width: continue
 					if pos[1] < self.menu_pos[1]: continue
-					i = (pos[1] - self.menu_pos[1]) / self.menu_font_height
+					i = (pos[1] - self.menu_pos[1]) // self.menu_font_height
 					if i >= len(self.menu): continue
 					rc = self.menu_select( i)
 					if rc: return rc

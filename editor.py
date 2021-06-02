@@ -906,8 +906,8 @@ class Board:
 		play_sound(menu_select)
 
 		# Determine where the pointer is
-		tile_x = (pos[0] - self.pos[0]) / tile_size
-		tile_y = (pos[1] - self.pos[1]) / tile_size
+		tile_x = (pos[0] - self.pos[0]) // tile_size
+		tile_y = (pos[1] - self.pos[1]) // tile_size
 		tile_xr = pos[0] - self.pos[0] - tile_x * tile_size
 		tile_yr = pos[1] - self.pos[1] - tile_y * tile_size
 		
@@ -1032,8 +1032,8 @@ class Board:
 		# click on an option
 		else:		
 			# Determine which option the pointer is in
-			option_x = (pos[0] - self.pos[0]) / 44
-			option_y = (pos[1] - tile_size*6-info_height*2-30) / 40
+			option_x = (pos[0] - self.pos[0]) // 44
+			option_y = (pos[1] - tile_size*6-info_height*2-30) // 40
 			optionTile = (option_x,option_y)
 			
 			# colors
