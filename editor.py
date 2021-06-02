@@ -21,7 +21,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 # Import Modules
-import os, pygame, random, time, math, re, sys, md5, getpass
+import os, pygame, random, time, math, re, sys, getpass, hashlib
+md5 = hashlib.md5()
 from shutil import copyfile
 from pygame.locals import *
 
