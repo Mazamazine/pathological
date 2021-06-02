@@ -43,7 +43,7 @@ for arg in sys.argv[1:]:
 		sound_on = 0
 		music_on = 0
 	elif arg[0] == '-':
-		print "Usage: "+sys.argv[0]+" [-cb] [-f] [-s] [highscores-file]\n"
+		print("Usage: "+sys.argv[0]+" [-cb] [-f] [-s] [highscores-file]\n")
 		sys.exit(1)
 	else:
 		highscores_file = arg
@@ -134,9 +134,9 @@ def load_image(name, colorkey=-1, size=None):
 	fullname = os.path.join('graphics', name)
 	try:
 		image = pygame.image.load(fullname)
-	except pygame.error, message:
-		print 'Cannot load image:', fullname
-		raise SystemExit, message
+	except pygame.error as message:
+		print('Cannot load image:', fullname)
+		raise SystemExit(message)
 
 	if size is not None:
 		image = pygame.transform.scale( image, size)
@@ -156,8 +156,8 @@ def load_sound(name, volume=1.0):
 	fullname = os.path.join('sounds', name)
 	try:
 		sound = pygame.mixer.Sound(fullname)
-	except pygame.error, message:
-		print 'Cannot load sound:', fullname
+	except pygame.error as message:
+		print('Cannot load sound:', fullname)
 		return NoneSound()
 
 	sound.set_volume( volume * sound_effects_volume)
@@ -177,14 +177,14 @@ def start_music(name, volume=-1):
 		return
 
 	if not pygame.mixer or not pygame.mixer.music:
-		print "Background music not available."
+		print("Background music not available.")
 		return
 	pygame.mixer.music.stop()
 	fullname = os.path.join('music', name)
 	try:
 		pygame.mixer.music.load(fullname)
-	except pygame.error, message:
-		print 'Cannot load music:', fullname
+	except pygame.error as message:
+		print('Cannot load music:', fullname)
 		return
 	music_loaded = 1
 	pygame.mixer.music.play(-1)
@@ -299,17 +299,17 @@ def load_fonts():
 def load_images():
 	Marble.images = []
 	for i in range(9):
-		Marble.images.append( load_image('marble-'+`i`+cbext, -1,
+		Marble.images.append( load_image('marble-'+repr(i)+cbext, -1,
 			(marble_size, marble_size)))
 
 	Tile.plain_tiles = []
 	Tile.tunnels = []
 	for i in range(16):
 		tile = load_image('tile.png', (206,53,53), (tile_size,tile_size))
-		path = load_image('path-'+`i`+'.png', -1, (tile_size,tile_size))
+		path = load_image('path-'+repr(i)+'.png', -1, (tile_size,tile_size))
 		tile.blit( path, (0,0))
 		Tile.plain_tiles.append( tile)
-		Tile.tunnels.append(load_image('tunnel-'+`i`+'.png',
+		Tile.tunnels.append(load_image('tunnel-'+repr(i)+'.png',
 			-1,(tile_size,tile_size)))
 	Tile.paths = 0
 
@@ -331,12 +331,12 @@ def load_images():
 
 	Painter.images = []
 	for i in range(8):
-		Painter.images.append( load_image('painter-'+`i`+cbext, -1,
+		Painter.images.append( load_image('painter-'+repr(i)+cbext, -1,
 			(tile_size,tile_size)))
 
 	Filter.images = []
 	for i in range(8):
-		Filter.images.append( load_image('filter-'+`i`+cbext, -1,
+		Filter.images.append( load_image('filter-'+repr(i)+cbext, -1,
 			(tile_size,tile_size)))
 
 	Director.images = (
@@ -354,7 +354,7 @@ def load_images():
 		for j in range(4):
 			if i == j: Switch.images[i].append( None)
 			else: Switch.images[i].append( load_image(
-				'switch-'+`i`+`j`+'.png',-1,(tile_size,tile_size)))
+				'switch-'+repr(i)+repr(j)+'.png',-1,(tile_size,tile_size)))
 
 	Replicator.image = load_image('replicator.png',-1,(tile_size,tile_size))
 
@@ -952,7 +952,7 @@ class Board:
 		# Create the board array
 		self.tiles = []
 		for j in range( vert_tiles):
-			row = range( horiz_tiles)
+			row = list(range( horiz_tiles))
 			self.tiles.append( row)
 
 		# Load the level
@@ -964,14 +964,14 @@ class Board:
 			# Compute a hash of the current level, involving
 			# a static timestamp.  This provides a consistent,
 			# backtrackable pseudo-random function.
-			hash = md5.new(`game.gamestart`+"/"+`game.level`).digest()
+			hash = md5.new(repr(game.gamestart)+"/"+repr(game.level)).digest()
 			hashval = (ord(hash[0]) + (ord(hash[1]) << 8) + \
 				(ord(hash[2]) << 16) + (ord(hash[3]) << 24)) & 32767;
 			self._load( game.circuit, hashval % game.numlevels);
 
 		# Create the launch timer text object
 		self.launch_timer_text = launch_timer_font.render(
-			`self.launch_timer`, 1, (255,255,255))
+			repr(self.launch_timer), 1, (255,255,255))
 		self.launch_timer_text_rect = self.launch_timer_text.get_rect()
 		self.launch_timer_text_rect.centerx = launch_timer_pos[0]+timer_width/2+1
 		self.launch_timer_text_rect.bottom = \
@@ -1004,7 +1004,7 @@ class Board:
 			board_pos[1] - marble_size))
 
 		# Draw the board name
-		board_name = `self.game.level+1` + " - " + self.name
+		board_name = repr(self.game.level+1) + " - " + self.name
 		if self.game.level >= self.game.numlevels:
 			board_name += " (Random)"
 		text = info_font.render( board_name, 1, (0,0,0))
@@ -1057,7 +1057,7 @@ class Board:
 		dirty_rects.append( rect)
 
 		# Draw the score
-		text = "Score: "+("00000000"+`self.game.score`)[-8:]
+		text = "Score: "+("00000000"+repr(self.game.score))[-8:]
 		text = info_font.render( text, 1, (0,0,0))
 		rect = text.get_rect()
 		rect.left = self.score_pos
@@ -1065,7 +1065,7 @@ class Board:
 
 		# Draw the board timer
 		time_remaining = (self.board_timeout+frames_per_sec-1)/frames_per_sec
-		text = `time_remaining/60`+":"+("00"+`time_remaining%60`)[-2:]
+		text = repr(time_remaining/60)+":"+("00"+repr(time_remaining%60))[-2:]
 		text = info_font.render( text, 1, (0,0,0))
 		rect = text.get_rect()
 		rect.left = self.board_timer_pos
@@ -1084,7 +1084,7 @@ class Board:
 		num_marbles = len(self.marbles)
 		if num_marbles > self.live_marbles_limit:
 			num_marbles = self.live_marbles_limit
-		text = `num_marbles`+"/"+`self.live_marbles_limit`
+		text = repr(num_marbles)+"/"+repr(self.live_marbles_limit)
 		text = active_marbles_font.render( text, 1, (40,40,40))
 		rect = text.get_rect()
 		rect.left = self.pos[0] + 8
@@ -1527,17 +1527,17 @@ class HighScores:
 		except:
 			try:
 				f = os.popen(write_highscores, "w")
-			except OSError, message:
-				print "Warning: Can't save highscores:", message
+			except OSError as message:
+				print("Warning: Can't save highscores:", message)
 				return
 
 		try:
 			for i in self.scores:
 				levelset = i[1].replace (" ", "-")
-				f.write( `i[0]`+' '+levelset+' '+`i[2]`+' '+i[3]+'\n')
+				f.write( repr(i[0])+' '+levelset+' '+repr(i[2])+' '+i[3]+'\n')
 			f.close()
 		except:
-			print "Warning: Problem saving highscores."
+			print("Warning: Problem saving highscores.")
 
 def wait_one_sec():
 	time.sleep(1)
@@ -1718,10 +1718,10 @@ class Game:
 				self.increase_score( time_bonus + holes_bonus)
 
 				message = 'Level Complete!\n'+ \
-					"Bonus for " + `time_remaining` + "% time remaining: " + \
-					`time_bonus` + "\n" + \
-					"Bonus for " + `empty_holes` + "% holes empty: " + \
-					`holes_bonus` + '\nClick to continue.'
+					"Bonus for " + repr(time_remaining) + "% time remaining: " + \
+					repr(time_bonus) + "\n" + \
+					"Bonus for " + repr(empty_holes) + "% holes empty: " + \
+					repr(holes_bonus) + '\nClick to continue.'
 
 				rc = self.board_dialog( message, 1, 1)
 				self.level += 1
@@ -1951,7 +1951,7 @@ class IntroScreen:
 			
 		menuLevelName = IntroScreen.start_level
 		if menuLevelName > levelNumber[levelset]: menuLevelName = "Random level"
-		else: menuLevelName = "Level "+`menuLevelName`
+		else: menuLevelName = "Level "+repr(menuLevelName)
 		levelt = self.menu_font.render(menuLevelName,
 					       1, self.menu_color)
 		lt_r = levelt.get_rect()
@@ -2228,7 +2228,7 @@ class IntroScreen:
 				numcolor = color = self.hs_current_color
 
 			y += self.hs_font_height
-			number = self.hs_font.render(`j+1`+'.',1,numcolor)
+			number = self.hs_font.render(repr(j+1)+'.',1,numcolor)
 			self.screen.blit( number,
 				(x + number_width - number.get_size()[0], y))
 			if i[3] != '':
@@ -2236,7 +2236,7 @@ class IntroScreen:
 				if name.get_width() > name_width:
 					name = name.subsurface( (0,0,name_width,name.get_height()))
 				self.screen.blit( name, (x + name_left, y))
-			level = self.hs_font.render( `i[2]`, 1, color)
+			level = self.hs_font.render( repr(i[2]), 1, color)
 			self.screen.blit( level, (x + level_right - level.get_width(), y))
 			levelsetDisplay = i[1]
 			if i[1] == 'all-boards': levelsetDisplay = 'Default'
@@ -2244,7 +2244,7 @@ class IntroScreen:
 			if levelset.get_width() > levelset_width:
 					levelset = levelset.subsurface( (0,0,levelset_width,levelset.get_height()))
 			self.screen.blit( levelset, (x + levelset_left, y))
-			score = self.hs_font.render( `i[0]`, 1, color)
+			score = self.hs_font.render( repr(i[0]), 1, color)
 			self.screen.blit( score, (x + score_right - score.get_width(), y))
 
 		self.dirty_rects.append( self.hs_rect)
@@ -2262,14 +2262,14 @@ def setup_everything():
 	try:
 		pygame.mixer.init()
 	except:
-		print "error on pygame.mixer.init() inside setup_everything():"
-		print sys.exc_info()[0],":",sys.exc_info()[1]
-		print "...ignoring it"
+		print("error on pygame.mixer.init() inside setup_everything():")
+		print(sys.exc_info()[0],":",sys.exc_info()[1])
+		print("...ignoring it")
 	pygame.font.init()
 	pygame.key.set_repeat(500, 30)
 
-	if not pygame.font: print 'Warning, fonts disabled'
-	if not pygame.mixer: print 'Warning, sound disabled'
+	if not pygame.font: print('Warning, fonts disabled')
+	if not pygame.mixer: print('Warning, sound disabled')
 
 	set_video_mode()
 	load_sounds()

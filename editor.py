@@ -43,10 +43,10 @@ for arg in sys.argv[1:]:
 		sound_on = 0
 		music_on = 0
 	elif arg[0] == '-':
-		print "Usage: "+sys.argv[0]+" [-cb] [-f] [-s]\n"
+		print("Usage: "+sys.argv[0]+" [-cb] [-f] [-s]\n")
 		sys.exit(1)
 	else:
-		print "Usage: "+sys.argv[0]+" [-cb] [-f] [-s]\n"
+		print("Usage: "+sys.argv[0]+" [-cb] [-f] [-s]\n")
 		sys.exit(1)
 
 if colorblind:
@@ -123,9 +123,9 @@ def load_image(name, colorkey=-1, size=None):
 	fullname = os.path.join('graphics', name)
 	try:
 		image = pygame.image.load(fullname)
-	except pygame.error, message:
-		print 'Cannot load image:', fullname
-		raise SystemExit, message
+	except pygame.error as message:
+		print('Cannot load image:', fullname)
+		raise SystemExit(message)
 
 	if size is not None:
 		image = pygame.transform.scale( image, size)
@@ -145,8 +145,8 @@ def load_sound(name, volume=1.0):
 	fullname = os.path.join('sounds', name)
 	try:
 		sound = pygame.mixer.Sound(fullname)
-	except pygame.error, message:
-		print 'Cannot load sound:', fullname
+	except pygame.error as message:
+		print('Cannot load sound:', fullname)
 		return NoneSound()
 
 	sound.set_volume( volume * sound_effects_volume)
@@ -166,14 +166,14 @@ def start_music(name, volume=-1):
 		return
 
 	if not pygame.mixer or not pygame.mixer.music:
-		print "Background music not available."
+		print("Background music not available.")
 		return
 	pygame.mixer.music.stop()
 	fullname = os.path.join('music', name)
 	try:
 		pygame.mixer.music.load(fullname)
-	except pygame.error, message:
-		print 'Cannot load music:', fullname
+	except pygame.error as message:
+		print('Cannot load music:', fullname)
 		return
 	music_loaded = 1
 	pygame.mixer.music.play(-1)
@@ -288,7 +288,7 @@ def load_fonts():
 def load_images():
 	Marble.images = []
 	for i in range(9):
-		Marble.images.append( load_image('marble-'+`i`+cbext+'.png', -1,
+		Marble.images.append( load_image('marble-'+repr(i)+cbext+'.png', -1,
 			(marble_size, marble_size)))
 	Marble.crossImg = load_image('cross.png', 0, (marble_size,marble_size))
 	Marble.onPathImg = load_image('marblePath.png', -1, (tile_size-6,tile_size-6))
@@ -297,10 +297,10 @@ def load_images():
 	Tile.tunnels = []
 	for i in range(16):
 		tile = load_image('tile.png', (206,53,53), (tile_size,tile_size))
-		path = load_image('path-'+`i`+'.png', -1, (tile_size,tile_size))
+		path = load_image('path-'+repr(i)+'.png', -1, (tile_size,tile_size))
 		tile.blit( path, (0,0))
 		Tile.plain_tiles.append( tile)
-		Tile.tunnels.append(load_image('tunnel-'+`i`+'.png',
+		Tile.tunnels.append(load_image('tunnel-'+repr(i)+'.png',
 			-1,(tile_size,tile_size)))
 	Tile.paths = 0
 	
@@ -317,12 +317,12 @@ def load_images():
 	
 	Painter.images = []
 	for i in range(8):
-		Painter.images.append( load_image('painter-'+`i`+cbext+'.png', -1,
+		Painter.images.append( load_image('painter-'+repr(i)+cbext+'.png', -1,
 			(tile_size,tile_size)))
 
 	Filter.images = []
 	for i in range(8):
-		Filter.images.append( load_image('filter-'+`i`+cbext+'.png', -1,
+		Filter.images.append( load_image('filter-'+repr(i)+cbext+'.png', -1,
 			(tile_size,tile_size)))
 
 	Director.images = (
@@ -340,7 +340,7 @@ def load_images():
 		for j in range(4):
 			if i == j: Switch.images[i].append( None)
 			else: Switch.images[i].append( load_image(
-				'switch-'+`i`+`j`+'.png',-1,(tile_size,tile_size)))
+				'switch-'+repr(i)+repr(j)+'.png',-1,(tile_size,tile_size)))
 	Switch.directionsImages = [Switch.images[0][1],Switch.images[1][0], \
 		Switch.images[2][1],Switch.images[3][2]]
 
@@ -647,7 +647,7 @@ class Board:
 		# Create the board array
 		self.tiles = []
 		for j in range( vert_tiles):
-			row = range( horiz_tiles)
+			row = list(range( horiz_tiles))
 			self.tiles.append( row)
 
 		# Load the level
@@ -691,7 +691,7 @@ class Board:
 		screen.blit(toolsSurface, (772, 45))
 		selectedSurface = pygame.Surface((tile_size,tile_size)).convert()
 		selectedSurface.fill((100, 200, 200))
-		for tool,coord_img in self.toolsImages.items():
+		for tool,coord_img in list(self.toolsImages.items()):
 			coordX,coordY=coord_img[0]
 			posImgX = board_pos[0]+(horiz_tiles+coordX)*tile_size
 			posImgY = board_pos[1]+tile_size*coordY
@@ -738,11 +738,11 @@ class Board:
 		bg.fill((200, 200, 200))
 		
 		if self.level == -1: board_name = "New level - " + self.name
-		else: board_name = `self.level+1` + " - " + self.name
+		else: board_name = repr(self.level+1) + " - " + self.name
 		if self.level != game.level and levelset != 'Custom':
 			levelsetDisplay = levelset
 			if levelset == 'all-boards': levelsetDisplay = 'Default'
-			board_name += " (from "+levelsetDisplay+" / level "+`game.level+1`+")"
+			board_name += " (from "+levelsetDisplay+" / level "+repr(game.level+1)+")"
 		textName = info_font.render( board_name, 1, (0,0,0))
 		rect = textName.get_rect()
 		rect.top = 10
@@ -943,7 +943,7 @@ class Board:
 				# Remove teleporter(s) in list
 				else:
 					teleportersCoords = list((k) for k, v \
-						in self.toolTeleporters.items() if v == tile.label)
+						in list(self.toolTeleporters.items()) if v == tile.label)
 					for coord in teleportersCoords:
 						self.toolTeleporters.pop(coord, None)
 						# Remove other teleporter tile
@@ -1159,7 +1159,7 @@ class Board:
 					# Empty tile
 					if path==0: f.write('   ')
 					# Path with marble
-					elif (x,y) in marblesToSave.keys(): 
+					elif (x,y) in list(marblesToSave.keys()): 
 						f.write(str(marblesToSave[(x,y)][0])+str(path)+ \
 							str(directionsSymbols[marblesToSave[(x,y)][1]]))
 					# Path
@@ -1603,7 +1603,7 @@ def get_name( screen, font, cursor_box, backcol, forecol):
 					name = name + chr(key)
 				# Add numpad numbers for non EN keyb layout
 				elif 256 <= event.key <= 265:
-					key = event.unicode
+					key = event.str
 					name = name + key
 			elif event.type is MOUSEBUTTONDOWN:
 				return None
@@ -1893,14 +1893,14 @@ def setup_everything():
 	try:
 		pygame.mixer.init()
 	except:
-		print "error on pygame.mixer.init() inside setup_everything():"
-		print sys.exc_info()[0],":",sys.exc_info()[1]
-		print "...ignoring it"
+		print("error on pygame.mixer.init() inside setup_everything():")
+		print(sys.exc_info()[0],":",sys.exc_info()[1])
+		print("...ignoring it")
 	pygame.font.init()
 	pygame.key.set_repeat(500, 30)
 
-	if not pygame.font: print 'Warning, fonts disabled'
-	if not pygame.mixer: print 'Warning, sound disabled'
+	if not pygame.font: print('Warning, fonts disabled')
+	if not pygame.mixer: print('Warning, sound disabled')
 	
 	# Backup Custom levelset in case anything goes wrong (TODO: cleanup)
 	date = time.strftime("%Y%m%d-%H:%M")
