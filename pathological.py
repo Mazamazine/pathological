@@ -4,6 +4,7 @@
 Copyright (C) 2003  John-Paul Gignac
           (C) 2004  Joe Wreschnig
           (C) 2016 Nina Ripoll (Editor/Levelsets)
+          (C) 2021 flowerbug
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

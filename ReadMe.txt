@@ -1,3 +1,6 @@
+# IN PROGRESS
+- Python 3+ version (and no longer compatible with Python 2)
+
 # CHANGES
 - Adds ability to play different levelsets to original game
 - Adds a level editor to original game
@@ -10,18 +13,15 @@
 - Undo/Redo in editor
 - Add a "test level" button in editor
 - Clean-up in backups
-- Have a Python 3+ version
 
 # TOFIX
 - Unlock done level even if no highscore has been recorded
 - Key translations for all keyboard layouts
 
-Tested with Ubuntu 14.04 / Python 2.7.6
-
 * ----------------------------------------------------------------- *
 
 # Where are levels saved?
-All new levels goes into the Custom levelset
+All new levels go into the Custom levelset
 All edited levels - whatever levelset it is from - will be saved into the Custom set
 The custom sets are in the Pathological folder, in \user_circuits\
 
@@ -40,12 +40,14 @@ To remove a set, remove the set file in the user_circuits folder.
 
 ReadMe updated by Nina Ripoll
 On Feb. 6th, 2016
+Amended for Python 3 by flowerbug
 
 * ----------------------------------------------------------------- *
 
 Copyright (C) 2003  John-Paul Gignac (Game)
           (C) 2004  Joe Wreschnig (Game)
           (C) 2016 Nina Ripoll (Editor)
+          (C) 2021 flowerbug
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -4,6 +4,7 @@
 Copyright (C) 2003  John-Paul Gignac (Game)
           (C) 2004  Joe Wreschnig (Game)
           (C) 2016 Nina Ripoll (Editor)
+          (C) 2021 flowerbug
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
