@@ -1356,12 +1356,12 @@ class Board:
 
 			# Handle Input Events
 			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
+				if event.type == QUIT:
 					return -4
-				elif event.type == pygame.KEYDOWN:
+				elif event.type == KEYDOWN:
 				
 					# Ask quit confirmation
-					if event.key == pygame.K_ESCAPE or event.key == pygame.K_q :
+					if event.key == K_ESCAPE or event.key == K_q :
 						self.quitPopup = self.quitPopup ^ 1
 						if self.quitPopup:
 							if screenshot:
@@ -1381,17 +1381,17 @@ class Board:
 					elif event.key == ord('w'): self.tool = 'Wheel'
 					elif event.key == ord('p'): self.tool = 'Tile'
 					
-					elif event.key == pygame.K_F2:
+					elif event.key == K_F2:
 						toggle_fullscreen()
-					elif event.key == pygame.K_F3:
+					elif event.key == K_F3:
 						toggle_music()
-					elif event.key == pygame.K_F4:
+					elif event.key == K_F4:
 						toggle_sound()
-					elif event.key == pygame.K_PLUS or event.key == 270:
+					elif event.key == K_PLUS or event.key == 270:
 						if music_volume < 1: 
 							music_volume +=0.1
 							pygame.mixer.music.set_volume(music_volume)
-					elif event.key == pygame.K_MINUS or event.key == 269:
+					elif event.key == K_MINUS or event.key == 269:
 						if music_volume > 0: 
 							music_volume -=0.1
 							pygame.mixer.music.set_volume(music_volume)
@@ -1575,30 +1575,30 @@ def get_name( screen, font, cursor_box, backcol, forecol):
 
 		pygame.time.wait(20)
 		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
+			if event.type == QUIT:
 				return None
-			elif event.type == pygame.KEYUP:
-				if event.key == pygame.K_LSHIFT:
-					shift_state &= ~pygame.KMOD_LSHIFT
-				elif event.key == pygame.K_RSHIFT:
-					shift_state &= ~pygame.KMOD_RSHIFT
-			elif event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_LSHIFT:
-					shift_state |= pygame.KMOD_LSHIFT
-				elif event.key == pygame.K_RSHIFT:
-					shift_state |= pygame.KMOD_RSHIFT
-				elif event.key == pygame.K_RETURN:
+			elif event.type == KEYUP:
+				if event.key == K_LSHIFT:
+					shift_state &= ~KMOD_LSHIFT
+				elif event.key == K_RSHIFT:
+					shift_state &= ~KMOD_RSHIFT
+			elif event.type == KEYDOWN:
+				if event.key == K_LSHIFT:
+					shift_state |= KMOD_LSHIFT
+				elif event.key == K_RSHIFT:
+					shift_state |= KMOD_RSHIFT
+				elif event.key == K_RETURN:
 					enter_pressed = 1
 					break
-				elif event.key == pygame.K_ESCAPE:
+				elif event.key == K_ESCAPE:
 					return None
-				elif event.key == pygame.K_F2:
+				elif event.key == K_F2:
 					toggle_fullscreen()
-				elif event.key == pygame.K_F3:
+				elif event.key == K_F3:
 					toggle_music()
-				elif event.key == pygame.K_F4:
+				elif event.key == K_F4:
 					toggle_sound()
-				elif event.key == pygame.K_BACKSPACE:
+				elif event.key == K_BACKSPACE:
 					name = name[:-1]
 				elif event.key >= 32 and event.key <= 127:
 					key = translate_key( event.key, shift_state)
@@ -1785,45 +1785,45 @@ class IntroScreen:
 
 			pygame.time.wait(20)
 			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
+				if event.type == QUIT:
 					return -4
-				elif event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_F2:
+				elif event.type == KEYDOWN:
+					if event.key == K_F2:
 						play_sound( menu_select)
 						if not toggle_fullscreen(): return -3
 						self.draw_menu()
-					elif event.key == pygame.K_F3:
+					elif event.key == K_F3:
 						play_sound( menu_select)
 						toggle_music()
 						self.draw_menu()
-					elif event.key == pygame.K_F4:
-						toggle_sound(1, self.dirty_rects)
+					elif event.key == K_F4:
+						toggle_sound()
 						play_sound( menu_select)
 						self.draw_menu()
 					elif self.curpage == 1:
 						self.go_to_main_menu()
-					elif event.key == pygame.K_ESCAPE:
+					elif event.key == K_ESCAPE:
 						return -1
-					elif event.key == pygame.K_DOWN:
+					elif event.key == K_DOWN:
 						self.menu_cursor += 1
 						play_sound( menu_scroll)
 						if self.menu_cursor == len(self.menu):
 							self.menu_cursor = 0
 						self.draw_menu()
-					elif event.key == pygame.K_UP:
+					elif event.key == K_UP:
 						self.menu_cursor -= 1
 						play_sound( menu_scroll)
 						if self.menu_cursor < 0:
 							self.menu_cursor = len(self.menu) - 1
 						self.draw_menu()
-					elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+					elif event.key == K_SPACE or event.key == K_RETURN:
 						rc = self.menu_select( self.menu_cursor)
 						if rc: return rc
-					elif event.key == pygame.K_LEFT:
+					elif event.key == K_LEFT:
 						if self.menu_cursor == 0:
 							self.dec_level()
 							self.draw_menu()
-					elif event.key == pygame.K_RIGHT:
+					elif event.key == K_RIGHT:
 						if self.menu_cursor == 0:
 							self.inc_level()
 							self.draw_menu()
