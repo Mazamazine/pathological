@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # Import Modules
 import os, pygame, random, time, math, re, sys, getpass, hashlib
 md5 = hashlib.md5()
+
 from shutil import copyfile
 from pygame.locals import *
 
@@ -133,7 +134,7 @@ def load_image(name, colorkey=-1, size=None):
 	image = image.convert()
 
 	if colorkey is not None:
-		if colorkey is -1:
+		if colorkey == -1:
 			colorkey = image.get_at((0,0))
 		image.set_colorkey(colorkey, RLEACCEL)
 	return image
@@ -1355,12 +1356,12 @@ class Board:
 
 			# Handle Input Events
 			for event in pygame.event.get():
-				if event.type is QUIT:
+				if event.type == pygame.QUIT:
 					return -4
-				elif event.type is KEYDOWN:
+				elif event.type == pygame.KEYDOWN:
 				
 					# Ask quit confirmation
-					if event.key is K_ESCAPE or event.key == ord('q'):
+					if event.key == pygame.K_ESCAPE or event.key == pygame.K_q :
 						self.quitPopup = self.quitPopup ^ 1
 						if self.quitPopup:
 							if screenshot:
@@ -1370,7 +1371,7 @@ class Board:
 						else:
 							popdown(quit_popup)
 					# Quit		
-					elif event.key is K_RETURN and self.quitPopup:
+					elif event.key == K_RETURN and self.quitPopup:
 						popdown(quit_popup)
 						return -3
 					# Change level
@@ -1380,22 +1381,22 @@ class Board:
 					elif event.key == ord('w'): self.tool = 'Wheel'
 					elif event.key == ord('p'): self.tool = 'Tile'
 					
-					elif event.key == K_F2:
+					elif event.key == pygame.K_F2:
 						toggle_fullscreen()
-					elif event.key == K_F3:
+					elif event.key == pygame.K_F3:
 						toggle_music()
-					elif event.key == K_F4:
+					elif event.key == pygame.K_F4:
 						toggle_sound()
-					elif event.key == ord('+') or event.key == 270:
+					elif event.key == pygame.K_PLUS or event.key == 270:
 						if music_volume < 1: 
 							music_volume +=0.1
 							pygame.mixer.music.set_volume(music_volume)
-					elif event.key == ord('-') or event.key == 269:
+					elif event.key == pygame.K_MINUS or event.key == 269:
 						if music_volume > 0: 
 							music_volume -=0.1
 							pygame.mixer.music.set_volume(music_volume)
 
-				elif event.type is MOUSEBUTTONDOWN:
+				elif event.type == MOUSEBUTTONDOWN:
 					if self.quitPopup:
 						self.quitPopup = 0
 						popdown( quit_popup)
@@ -1574,30 +1575,30 @@ def get_name( screen, font, cursor_box, backcol, forecol):
 
 		pygame.time.wait(20)
 		for event in pygame.event.get():
-			if event.type is QUIT:
+			if event.type == pygame.QUIT:
 				return None
-			elif event.type is KEYUP:
-				if event.key == K_LSHIFT:
-					shift_state &= ~KMOD_LSHIFT
-				elif event.key == K_RSHIFT:
-					shift_state &= ~KMOD_RSHIFT
-			elif event.type is KEYDOWN:
-				if event.key == K_LSHIFT:
-					shift_state |= KMOD_LSHIFT
-				elif event.key == K_RSHIFT:
-					shift_state |= KMOD_RSHIFT
-				elif event.key == K_RETURN:
+			elif event.type == pygame.KEYUP:
+				if event.key == pygame.K_LSHIFT:
+					shift_state &= ~pygame.KMOD_LSHIFT
+				elif event.key == pygame.K_RSHIFT:
+					shift_state &= ~pygame.KMOD_RSHIFT
+			elif event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_LSHIFT:
+					shift_state |= pygame.KMOD_LSHIFT
+				elif event.key == pygame.K_RSHIFT:
+					shift_state |= pygame.KMOD_RSHIFT
+				elif event.key == pygame.K_RETURN:
 					enter_pressed = 1
 					break
-				elif event.key == K_ESCAPE:
+				elif event.key == pygame.K_ESCAPE:
 					return None
-				elif event.key == K_F2:
+				elif event.key == pygame.K_F2:
 					toggle_fullscreen()
-				elif event.key == K_F3:
+				elif event.key == pygame.K_F3:
 					toggle_music()
-				elif event.key == K_F4:
+				elif event.key == pygame.K_F4:
 					toggle_sound()
-				elif event.key == K_BACKSPACE:
+				elif event.key == pygame.K_BACKSPACE:
 					name = name[:-1]
 				elif event.key >= 32 and event.key <= 127:
 					key = translate_key( event.key, shift_state)
@@ -1606,7 +1607,7 @@ def get_name( screen, font, cursor_box, backcol, forecol):
 				elif 256 <= event.key <= 265:
 					key = event.str
 					name = name + key
-			elif event.type is MOUSEBUTTONDOWN:
+			elif event.type == pygame.MOUSEBUTTONDOWN:
 				return None
 				
 	return name
@@ -1784,50 +1785,50 @@ class IntroScreen:
 
 			pygame.time.wait(20)
 			for event in pygame.event.get():
-				if event.type is QUIT:
+				if event.type == pygame.QUIT:
 					return -4
-				elif event.type is KEYDOWN:
-					if event.key == K_F2:
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_F2:
 						play_sound( menu_select)
 						if not toggle_fullscreen(): return -3
 						self.draw_menu()
-					elif event.key == K_F3:
+					elif event.key == pygame.K_F3:
 						play_sound( menu_select)
 						toggle_music()
 						self.draw_menu()
-					elif event.key == K_F4:
+					elif event.key == pygame.K_F4:
 						toggle_sound(1, self.dirty_rects)
 						play_sound( menu_select)
 						self.draw_menu()
 					elif self.curpage == 1:
 						self.go_to_main_menu()
-					elif event.key == K_ESCAPE:
+					elif event.key == pygame.K_ESCAPE:
 						return -1
-					elif event.key == K_DOWN:
+					elif event.key == pygame.K_DOWN:
 						self.menu_cursor += 1
 						play_sound( menu_scroll)
 						if self.menu_cursor == len(self.menu):
 							self.menu_cursor = 0
 						self.draw_menu()
-					elif event.key == K_UP:
+					elif event.key == pygame.K_UP:
 						self.menu_cursor -= 1
 						play_sound( menu_scroll)
 						if self.menu_cursor < 0:
 							self.menu_cursor = len(self.menu) - 1
 						self.draw_menu()
-					elif event.key == K_SPACE or event.key == K_RETURN:
+					elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
 						rc = self.menu_select( self.menu_cursor)
 						if rc: return rc
-					elif event.key == K_LEFT:
+					elif event.key == pygame.K_LEFT:
 						if self.menu_cursor == 0:
 							self.dec_level()
 							self.draw_menu()
-					elif event.key == K_RIGHT:
+					elif event.key == pygame.K_RIGHT:
 						if self.menu_cursor == 0:
 							self.inc_level()
 							self.draw_menu()
 					continue
-				elif event.type is MOUSEBUTTONDOWN:
+				elif event.type == pygame.MOUSEBUTTONDOWN:
 
 					pos = pygame.mouse.get_pos()
 
