@@ -1,5 +1,5 @@
 # IN PROGRESS
-- Python 3+ version (and no longer compatible with Python 2)
+- A python3 version already is available in Debian so this is a waste of my time, but the level editor is nice and should be added to Debian somehow...
 
 # CHANGES
 - Adds ability to play different levelsets to original game
