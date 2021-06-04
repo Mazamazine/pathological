@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Import Modules
 import os, pygame, random, time, math, re, sys, hashlib
-md5 = hashlib.md5()
 from pygame.locals import *
 
 # Parse the command line
@@ -107,10 +106,10 @@ for i in range(wheel_steps):
 	c = math.floor( 0.5 + math.cos(theta)*holecenter_radius)
 	s = math.floor( 0.5 + math.sin(theta)*holecenter_radius)
 	holecenters.append((
-		(tile_size/2 + s, tile_size/2 - c),
-		(tile_size/2 + c, tile_size/2 + s),
-		(tile_size/2 - s, tile_size/2 + c),
-		(tile_size/2 - c, tile_size/2 - s)))
+		(tile_size//2 + s, tile_size//2 - c),
+		(tile_size//2 + c, tile_size//2 + s),
+		(tile_size//2 - s, tile_size//2 + c),
+		(tile_size//2 - c, tile_size//2 - s)))
 
 # Direction references
 dirs = ((0,-1),(1,0),(0,1),(-1,0))
@@ -244,7 +243,7 @@ def countLevels(levelsetToCheck=None):
 		if line[0] == '|': j += 1
 	f.close()
 	
-	numlevels = j / vert_tiles
+	numlevels = j // vert_tiles
 
 	return numlevels
 
@@ -453,7 +452,7 @@ class Tile:
 	def click(self, board, posx, posy, tile_x, tile_y): pass
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2,tile_size/2):
+		if rpos == (tile_size//2,tile_size//2):
 			if self.paths & (1 << marble.direction): return
 
 			# Figure out the new direction
@@ -481,8 +480,8 @@ class Wheel(Tile):
 			for i in range(4):
 				holecenter = holecenters[self.spinpos][i]
 				surface.blit( self.moving_holes[self.completed],
-					(holecenter[0]-marble_size/2+self.rect.left,
-					holecenter[1]-marble_size/2+self.rect.top))
+					(holecenter[0]-marble_size//2+self.rect.left,
+					holecenter[1]-marble_size//2+self.rect.top))
 		else:
 			surface.blit( self.images[self.completed], self.rect.topleft)
 
@@ -491,8 +490,8 @@ class Wheel(Tile):
 			if color >= 0:
 				holecenter = holecenters[self.spinpos][i]
 				surface.blit( Marble.images[color],
-					(holecenter[0]-marble_size/2+self.rect.left,
-					holecenter[1]-marble_size/2+self.rect.top))
+					(holecenter[0]-marble_size//2+self.rect.left,
+					holecenter[1]-marble_size//2+self.rect.top))
 
 		return 1
 
@@ -577,7 +576,7 @@ class Wheel(Tile):
 
 	def affect_marble(self, board, marble, rpos):
 		# Watch for marbles entering
-		if rpos[0]+marble_size/2 == wheel_margin or \
+		if rpos[0]+marble_size//2 == wheel_margin or \
 			rpos[0]-marble_size/2 == tile_size - wheel_margin or \
 			rpos[1]+marble_size/2 == wheel_margin or \
 			rpos[1]-marble_size/2 == tile_size - wheel_margin:
@@ -657,8 +656,8 @@ class Buffer(Tile):
 		if color >= 0:
 			holecenter = self.rect.center
 			surface.blit( Marble.images[color],
-				(holecenter[0]-marble_size/2,
-				holecenter[1]-marble_size/2))
+				(holecenter[0]-marble_size//2,
+				holecenter[1]-marble_size//2))
 		else:
 			surface.blit( self.bottom, self.rect.topleft)
 
@@ -672,10 +671,10 @@ class Buffer(Tile):
 
 	def affect_marble(self, board, marble, rpos):
 		# Watch for marbles entering
-		if (rpos[0]+marble_size == tile_size/2 and marble.direction == 1) or \
-			(rpos[0]-marble_size == tile_size/2 and marble.direction == 3) or \
-			(rpos[1]+marble_size == tile_size/2 and marble.direction == 2) or \
-			(rpos[1]-marble_size == tile_size/2 and marble.direction == 0):
+		if (rpos[0]+marble_size == tile_size//2 and marble.direction == 1) or \
+			(rpos[0]-marble_size == tile_size//2 and marble.direction == 3) or \
+			(rpos[1]+marble_size == tile_size//2 and marble.direction == 2) or \
+			(rpos[1]-marble_size == tile_size//2 and marble.direction == 0):
 
 			if self.entering is not None:
 				# Bump the marble that is currently entering
@@ -687,7 +686,7 @@ class Buffer(Tile):
 
 				# Let the base class affect the marble
 				Tile.affect_marble(self, board, newmarble,
-					(tile_size/2,tile_size/2))
+					(tile_size//2,tile_size//2))
 			elif self.marble >= 0:
 				# Bump the marble that is currently caught
 				newmarble = Marble( self.marble, self.rect.center, marble.direction)
@@ -698,7 +697,7 @@ class Buffer(Tile):
 
 				# Let the base class affect the marble
 				Tile.affect_marble(self, board, newmarble,
-					(tile_size/2,tile_size/2))
+					(tile_size//2,tile_size//2))
 
 				self.marble = -1
 				self.drawn = 0
@@ -706,7 +705,7 @@ class Buffer(Tile):
 			# Remember which marble is on its way in
 			self.entering = marble
 
-		elif rpos == (tile_size/2, tile_size/2):
+		elif rpos == (tile_size//2, tile_size//2):
 			# Catch this marble
 			self.marble = marble.color
 			board.marbles.remove( marble)
@@ -725,7 +724,7 @@ class Painter(Tile):
 
 	def affect_marble(self, board, marble, rpos):
 		Tile.affect_marble( self, board, marble, rpos)
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			if marble.color != self.color:
 				# Change the color
 				marble.color = self.color
@@ -742,7 +741,7 @@ class Filter(Tile):
 		return 0
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			# If the color is wrong, bounce the marble
 			if marble.color != self.color and marble.color != 8:
 				marble.direction = marble.direction ^ 2
@@ -762,7 +761,7 @@ class Director(Tile):
 		return 0
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			marble.direction = self.direction
 			play_sound( direct_marble)
 
@@ -776,7 +775,7 @@ class Shredder(Tile):
 		return 0
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			board.marbles.remove( marble)
 			play_sound( shredder)
 
@@ -803,7 +802,7 @@ class Switch(Tile):
 		return rc
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			marble.direction = self.curdir
 			self.switch()
 
@@ -839,7 +838,7 @@ class Replicator(Tile):
 
 	def affect_marble(self, board, marble, rpos):
 		Tile.affect_marble( self, board, marble, rpos)
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			# Add the marble to the pending list
 			self.pending.append( [marble.color,marble.direction,
 				self.count - 1, replicator_delay]);
@@ -862,7 +861,7 @@ class Teleporter(Tile):
 		other.other = self
 
 	def affect_marble(self, board, marble, rpos):
-		if rpos == (tile_size/2, tile_size/2):
+		if rpos == (tile_size//2, tile_size//2):
 			marble.rect.center = self.other.rect.center
 			play_sound( teleport)
 
@@ -896,8 +895,8 @@ class Trigger(Tile):
 		if self.marbles is not None:
 			for i in range(4):
 				surface.blit( Marble.images[self.marbles[i]],
-					(holecenters[0][i][0]+self.rect.left-marble_size/2,
-					 holecenters[0][i][1]+self.rect.top-marble_size/2))
+					(holecenters[0][i][0]+self.rect.left-marble_size//2,
+					 holecenters[0][i][1]+self.rect.top-marble_size//2))
 		return 1
 
 	def complete(self, board):
@@ -967,7 +966,7 @@ class Board:
 			# Compute a hash of the current level, involving
 			# a static timestamp.  This provides a consistent,
 			# backtrackable pseudo-random function.
-			hash = md5.new(repr(game.gamestart)+"/"+repr(game.level)).digest()
+			hash = hashlib.md5(repr(game.gamestart)+"/"+repr(game.level)).digest()
 			hashval = (ord(hash[0]) + (ord(hash[1]) << 8) + \
 				(ord(hash[2]) << 16) + (ord(hash[3]) << 24)) & 32767;
 			self._load( game.circuit, hashval % game.numlevels);
@@ -976,7 +975,7 @@ class Board:
 		self.launch_timer_text = launch_timer_font.render(
 			repr(self.launch_timer), 1, (255,255,255))
 		self.launch_timer_text_rect = self.launch_timer_text.get_rect()
-		self.launch_timer_text_rect.centerx = launch_timer_pos[0]+timer_width/2+1
+		self.launch_timer_text_rect.centerx = launch_timer_pos[0]+timer_width//2+1
 		self.launch_timer_text_rect.bottom = \
 			launch_timer_pos[1] + timer_height - timer_margin
 
@@ -1003,7 +1002,7 @@ class Board:
 				self.background.blit( self.launcher_entrance, 
 					(board_pos[0]+tile_size*i, board_pos[1]-marble_size))
 		self.background.blit( self.launcher_corner,
-			(board_pos[0]+horiz_tiles*tile_size-(tile_size-marble_size)/2,
+			(board_pos[0]+horiz_tiles*tile_size-(tile_size-marble_size)//2,
 			board_pos[1] - marble_size))
 
 		# Draw the board name
@@ -1041,7 +1040,7 @@ class Board:
 				timer_width-timer_margin*2,height))
 			dirty_rects.append( rect)
 		else:
-			height = timer_height*self.launch_timeout/self.launch_timeout_start
+			height = timer_height*self.launch_timeout//self.launch_timeout_start
 			if height < self.launch_timer_height:
 				rect = (launch_timer_pos[0] + timer_margin,
 					launch_timer_pos[1] + timer_height - self.launch_timer_height,
@@ -1067,8 +1066,8 @@ class Board:
 		self.screen.blit( text, rect)
 
 		# Draw the board timer
-		time_remaining = (self.board_timeout+frames_per_sec-1)/frames_per_sec
-		text = repr(time_remaining/60)+":"+("00"+repr(time_remaining%60))[-2:]
+		time_remaining = (self.board_timeout+frames_per_sec-1)//frames_per_sec
+		text = repr(time_remaining//60)+":"+("00"+repr(time_remaining%60))[-2:]
 		text = info_font.render( text, 1, (0,0,0))
 		rect = text.get_rect()
 		rect.left = self.board_timer_pos
@@ -1078,7 +1077,7 @@ class Board:
 		right_edge = self.board_timer_pos - 32
 		for i in range(self.game.lives - 1):
 			rect = self.life_marble.get_rect()
-			rect.centery = info_height / 2
+			rect.centery = info_height // 2
 			rect.right = right_edge
 			self.screen.blit( self.life_marble, rect)
 			right_edge -= rect.width + 4
@@ -1091,7 +1090,7 @@ class Board:
 		text = active_marbles_font.render( text, 1, (40,40,40))
 		rect = text.get_rect()
 		rect.left = self.pos[0] + 8
-		rect.centery = self.pos[1] - marble_size / 2
+		rect.centery = self.pos[1] - marble_size // 2
 		rect.width += 100
 		self.screen.set_clip( rect)
 		self.screen.blit( self.background, (0,0))
@@ -1206,7 +1205,7 @@ class Board:
 	def set_launch_timer(self, passes):
 		self.launch_timer = passes
 		self.launch_timeout_start = (marble_size +
-			(horiz_tiles * tile_size - marble_size) * passes) / marble_speed
+			(horiz_tiles * tile_size - marble_size) * passes) // marble_speed
 		self.launch_timer_height = None
 
 	def set_board_timer(self, seconds):
@@ -1217,8 +1216,8 @@ class Board:
 	def launch_marble(self):
 		self.launch_queue.append(random.choice(self.colors))
 		self.marbles.insert( 0, Marble( self.launch_queue[0],
-			(self.pos[0]+tile_size*horiz_tiles+marble_size/2,
-			self.pos[1]-marble_size/2), 3))
+			(self.pos[0]+tile_size*horiz_tiles+marble_size//2,
+			self.pos[1]-marble_size//2), 3))
 		del self.launch_queue[0]
 		self.launched = 1
 
@@ -1231,15 +1230,15 @@ class Board:
 		cy = c[1] - self.pos[1]
 
 		# Bounce marbles off of the top
-		if cy == marble_size/2:
+		if cy == marble_size//2:
 			marble.direction = 2
 			return
 
 		if cy < 0:
-			if cx == marble_size/2:
+			if cx == marble_size//2:
 				marble.direction = 1
 				return
-			if cx == tile_size * horiz_tiles - marble_size/2 \
+			if cx == tile_size * horiz_tiles - marble_size//2 \
 				and marble.direction == 1:
 				marble.direction = 3
 				return
@@ -1262,7 +1261,7 @@ class Board:
 
 		if cy < 0 and marble.direction != 2:
 			# The special case of new marbles at the top
-			if tile_xr == tile_size / 2 and (tile.paths & 1):
+			if tile_xr == tile_size // 2 and (tile.paths & 1):
 				if isinstance( tile, Wheel):
 					if tile.spinpos > 0 or tile.marbles[0] != -3: return
 					tile.marbles[0] = -2
@@ -1623,7 +1622,7 @@ class Game:
 		self.score += amount
 
 		# Award any extra lives that are due
-		extra_lives = amount / extra_life_frequency + \
+		extra_lives = amount // extra_life_frequency + \
 			(self.score % extra_life_frequency < amount % extra_life_frequency)
 		extra_lives = min( extra_lives, max_spare_lives+1 - self.lives)
 		if extra_lives > 0:
@@ -1683,7 +1682,7 @@ class Game:
 						"You have a highscore!\n"+
 						"Please enter your name:", (300, 180))
 					name = get_name( self.screen, popup_font,
-						((screen_width-250)/2,310,250,popup_font.get_height()),
+						((screen_width-250)//2,310,250,popup_font.get_height()),
 						(255,255,255), (0,0,0))
 					if name is None: return -1
 
@@ -1702,7 +1701,7 @@ class Game:
 				# The board was completed
 
 				# Compute time remaining bonus
-				time_remaining = 100 * board.board_timeout / \
+				time_remaining = 100 * board.board_timeout // \
 					board.board_timeout_start
 				time_bonus = 5 * time_remaining
 
@@ -1715,7 +1714,7 @@ class Game:
 							total_holes += 4
 							for i in tile.marbles:
 								if i < 0: empty_holes += 1
-				empty_holes = (100 * empty_holes + total_holes/2) / total_holes
+				empty_holes = (100 * empty_holes + total_holes//2) // total_holes
 				holes_bonus = 2 * empty_holes
 
 				self.increase_score( time_bonus + holes_bonus)
@@ -1806,7 +1805,7 @@ def translate_key( key, shift_state):
 	return key
 
 def get_name( screen, font, cursor_box, backcol, forecol):
-	cursor_width = cursor_box[3] / 3
+	cursor_width = cursor_box[3] // 3
 	cursor_pos = [cursor_box[0], cursor_box[1], cursor_width, cursor_box[3]]
 	name = ""
 
@@ -1867,7 +1866,7 @@ class IntroScreen:
 	start_level = 1
 	start_levelset = 0
 	menu_width = 370
-	menu_pos = ((800 - menu_width)/2, 130)
+	menu_pos = ((800 - menu_width)//2, 130)
 	menu_font_height = 32
 	menu_color = (255,255,255)
 	menu_cursor_color = (60,60,60)
@@ -2169,7 +2168,7 @@ class IntroScreen:
 
 	hs_font_height = 24
 	hs_width = 470
-	hs_pos = ((800-hs_width)/2, 114)
+	hs_pos = ((800-hs_width)//2, 114)
 	hs_margin = 8
 	hs_column_margin = 70
 	hs_score_width = 70

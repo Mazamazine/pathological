@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 # Import Modules
 import os, pygame, random, time, math, re, sys, getpass, hashlib
-md5 = hashlib.md5()
 
 from shutil import copyfile
 from pygame.locals import *
@@ -66,7 +65,7 @@ info_height = 20
 
 # Volume levels
 intro_music_volume = 0.3
-ingame_music_volume = 0.3
+ingame_music_volume = 0.1
 sound_effects_volume = 0.6
 
 # Changing these may affect the playability of levels
@@ -96,10 +95,10 @@ for i in range(wheel_steps):
 	c = math.floor( 0.5 + math.cos(theta)*holecenter_radius)
 	s = math.floor( 0.5 + math.sin(theta)*holecenter_radius)
 	holecenters.append((
-		(tile_size/2 + s, tile_size/2 - c),
-		(tile_size/2 + c, tile_size/2 + s),
-		(tile_size/2 - s, tile_size/2 + c),
-		(tile_size/2 - c, tile_size/2 - s)))
+		(tile_size//2 + s, tile_size//2 - c),
+		(tile_size//2 + c, tile_size//2 + s),
+		(tile_size//2 - s, tile_size//2 + c),
+		(tile_size//2 - c, tile_size//2 - s)))
 
 # Directions/tiles references
 tilesSymbols = {'Tile':'','Wheel':'O','Painter':'&','Filter':'#','Buffer':'@',\
@@ -458,8 +457,8 @@ class Buffer(Tile):
 		if color >= 0:
 			holecenter = self.rect.center
 			surface.blit( Marble.images[color],
-				(holecenter[0]-marble_size/2,
-				holecenter[1]-marble_size/2))
+				(holecenter[0]-marble_size//2,
+				holecenter[1]-marble_size//2))
 		else:
 			surface.blit( self.bottom, self.rect.topleft)
 
@@ -577,8 +576,8 @@ class Trigger(Tile):
 		if self.marbles is not None:
 			for i in range(4):
 				surface.blit( Marble.images[self.marbles[i]],
-					(holecenters[0][i][0]+self.rect.left-marble_size/2,
-					 holecenters[0][i][1]+self.rect.top-marble_size/2))
+					(holecenters[0][i][0]+self.rect.left-marble_size//2,
+					 holecenters[0][i][1]+self.rect.top-marble_size//2))
 		return 1
 
 class Stoplight(Tile):
@@ -1551,7 +1550,7 @@ def translate_key( key, shift_state): # TODO what if keyboard layout is not EN?
 	return key
 
 def get_name( screen, font, cursor_box, backcol, forecol):
-	cursor_width = cursor_box[3] / 3
+	cursor_width = cursor_box[3] // 3
 	cursor_pos = [cursor_box[0], cursor_box[1], cursor_width, cursor_box[3]]
 	name = ""
 
@@ -1620,7 +1619,7 @@ class IntroScreen:
 	start_level = 0
 	start_levelset = 0
 	menu_width = 370
-	menu_pos = ((800 - menu_width)/2, 230)
+	menu_pos = ((800 - menu_width)//2, 230)
 	menu_font_height = 32
 	menu_color = (255,255,255)
 	menu_cursor_color = (60,60,60)
