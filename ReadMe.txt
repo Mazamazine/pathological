@@ -1,5 +1,7 @@
 # IN PROGRESS
-- A python3 version already is available in Debian so this is a waste of my time, but the level editor is nice and should be added to Debian somehow...
+- A python3 version already is available in Debian so this is 
+  me playing around and trying things out.  The level editor 
+  is nice and should be added to Debian somehow...
 
 # CHANGES
 - Adds ability to play different levelsets to original game
@@ -17,6 +19,10 @@
 # TOFIX
 - Unlock done level even if no highscore has been recorded
 - Key translations for all keyboard layouts
+- Pygame 1.9.6 works fine for fullscreen and back, but Pygame 
+  Pygame 2.0.1 (SDL 2.0.14, Python 3.9.2) has problems and 
+  may lock up your screen if you try to go to fullscreen and 
+  back again.
 
 * ----------------------------------------------------------------- *
 
