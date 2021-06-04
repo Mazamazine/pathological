@@ -20,9 +20,10 @@
 - Unlock done level even if no highscore has been recorded
 - Key translations for all keyboard layouts
 - Pygame 1.9.6 works fine for fullscreen and back, but Pygame 
-  Pygame 2.0.1 (SDL 2.0.14, Python 3.9.2) has problems and 
-  may lock up your screen if you try to go to fullscreen and 
-  back again.
+  Pygame 2.0.1 (SDL 2.0.14, Python 3.9.2) may lock up your 
+  screen if you try to go to fullscreen and back again.  Use
+  at least Pygame 2.0.2.dev1 (SDL 2.0.14, Python 3.9.2) instead
+  as it works.
 
 * ----------------------------------------------------------------- *
 
