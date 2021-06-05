@@ -1,7 +1,12 @@
 # IN PROGRESS
+- Trying for mouse wheel support - Moving over a wheel on the
+  screen and any movement of the mouse wheel is detected and
+  turns the wheel on the screen one direction or the other.
+
+# MY WISHLIST
 - A python3 version already is available in Debian so this is 
-  me playing around and trying things out.  The level editor 
-  is nice and should be added to Debian somehow...
+  me playing around and trying things out.
+- The level editor is nice and should be added to Debian somehow.
 
 # CHANGES
 - Adds ability to play different levelsets to original game
@@ -20,10 +25,13 @@
 - Unlock done level even if no highscore has been recorded
 - Key translations for all keyboard layouts
 - Pygame 1.9.6 works fine for fullscreen and back, but Pygame 
-  Pygame 2.0.1 (SDL 2.0.14, Python 3.9.2) may lock up your 
-  screen if you try to go to fullscreen and back again.  Use
+  2.0.1 (SDL 2.0.14, Python 3.9.2) may lock up your screen or
+  computer if you try to go to fullscreen and back again.  Use
   at least Pygame 2.0.2.dev1 (SDL 2.0.14, Python 3.9.2) instead
-  as it works.
+  as it may work better and not lock up the screen or computer, 
+  but it does not work completely. I still use it because I 
+  need a version with mouse wheel support so this version or  
+  later is what I'm working with.
 
 * ----------------------------------------------------------------- *
 
