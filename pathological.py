@@ -2110,6 +2110,10 @@ class IntroScreen:
 							self.draw_menu()
 					continue
 				elif event.type == MOUSEBUTTONDOWN:
+					print("Mouse Button Menu Event", event)
+					if event.button == 4 or event.button == 5:
+						print("  Scrolling up or down.", event.button)
+						continue
 					if self.curpage == 1:
 						self.go_to_main_menu()
 						continue
@@ -2125,6 +2129,23 @@ class IntroScreen:
 					if i >= len(self.menu): continue
 					rc = self.menu_select( i)
 					if rc: return rc
+				elif event.type == MOUSEWHEEL:
+					print("Mouse Wheel Menu Event", event)
+					if event.y == -1:
+						print("  Scrolling down.")
+						self.menu_cursor += 1
+						play_sound( menu_scroll)
+						if self.menu_cursor == len(self.menu):
+							self.menu_cursor = 0
+						self.draw_menu()
+					elif event.y == 1:
+						print("  Scrolling up.")
+						self.menu_cursor -= 1
+						play_sound( menu_scroll)
+						if self.menu_cursor < 0:    
+							self.menu_cursor = len(self.menu) - 1
+						self.draw_menu()
+					continue
 
 			pygame.display.update( self.dirty_rects)
 
