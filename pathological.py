@@ -1438,7 +1438,7 @@ class Board:
 				if event.type == QUIT:
 					return -4
 				elif event.type == KEYDOWN:
-					if event.key == K_ESCAPE: return -3
+					if event.key == K_ESCAPE or event.key == K_q: return -3
 					elif event.key == ord('n'): return 2
 					elif event.key == ord('b'): return 3
 					elif event.key == ord(' ') or \
@@ -1747,7 +1747,8 @@ class Game:
 				if event.type == QUIT:
 					return -2
 				elif event.type == KEYDOWN:
-					if event.key == K_ESCAPE: return -1
+					if event.key == K_ESCAPE or event.key == K_q:
+						return -1
 					if event.key == ord('b'):
 						if self.level > 0: self.level -= 1
 						self.score = 0
@@ -1842,7 +1843,7 @@ def get_name( screen, font, cursor_box, backcol, forecol):
 					shift_state |= KMOD_LSHIFT
 				elif event.key == K_RSHIFT:
 					shift_state |= KMOD_RSHIFT
-				elif event.key == K_ESCAPE or event.key == K_RETURN:
+				elif event.key == K_ESCAPE or event.key == K_RETURN or event.key == K_q:
 					enter_pressed = 1
 					break
 				elif event.key == K_F2:
@@ -2083,7 +2084,7 @@ class IntroScreen:
 						self.draw_menu()
 					elif self.curpage == 1:
 						self.go_to_main_menu()
-					elif event.key == K_ESCAPE:
+					elif event.key == K_ESCAPE or event.key == K_q:
 						return -1
 					elif event.key == K_DOWN:
 						self.menu_cursor += 1
