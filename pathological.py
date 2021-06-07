@@ -449,7 +449,9 @@ class Tile:
 
 	def draw_fore(self, surface): return 0
 
-	def click(self, board, posx, posy, tile_x, tile_y): pass
+	def click(self, board, posx, posy, tile_x, tile_y, dir): 
+#		print("Click Tile pos", tile_x, tile_y, dir)
+		pass
 
 	def affect_marble(self, board, marble, rpos):
 		if rpos == (tile_size//2,tile_size//2):
@@ -500,12 +502,12 @@ class Wheel(Tile):
 			self.spinpos -= 1
 			self.drawn = 0
 
-	def click(self, board, posx, posy, tile_x, tile_y):
+	def click(self, board, posx, posy, tile_x, tile_y, dir):
 		# Ignore all clicks while rotating
 		if self.spinpos: return
 
 		b1, b2, b3 = pygame.mouse.get_pressed()
-		if b3:
+		if b3 or dir != None:
 			# First, make sure that no marbles are currently entering
 			for i in self.marbles:
 				if i == -1 or i == -2: return
@@ -515,11 +517,20 @@ class Wheel(Tile):
 			play_sound( wheel_turn)
 
 			# Reposition the marbles
-			t = self.marbles[0]
-			self.marbles[0] = self.marbles[1]
-			self.marbles[1] = self.marbles[2]
-			self.marbles[2] = self.marbles[3]
-			self.marbles[3] = t
+			if dir == None or dir == 1 or dir == -1:
+#				print("Wheel Click:", tile_x, tile_y, dir)
+				t = self.marbles[0]
+				self.marbles[0] = self.marbles[1]
+				self.marbles[1] = self.marbles[2]
+				self.marbles[2] = self.marbles[3]
+				self.marbles[3] = t
+#			else:
+#				print("Wheel Click dir else", tile_x, tile_y, dir)
+#				t = self.marbles[3]
+#				self.marbles[3] = self.marbles[2]
+#				self.marbles[2] = self.marbles[1]
+#				self.marbles[1] = self.marbles[0]
+#				self.marbles[0] = t
 
 			self.drawn = 0
 
@@ -1273,7 +1284,7 @@ class Board:
 		else:
 			tile.affect_marble( self, marble, (tile_xr, tile_yr))
 
-	def click(self, pos):
+	def click(self, pos, dir):
 		# Determine which tile the pointer is in
 		tile_x = (pos[0] - self.pos[0]) // tile_size
 		tile_y = (pos[1] - self.pos[1]) // tile_size
@@ -1282,7 +1293,7 @@ class Board:
 		if tile_x >= 0 and tile_x < horiz_tiles and \
 			tile_y >= 0 and tile_y < vert_tiles:
 			tile = self.tiles[tile_y][tile_x]
-			tile.click( self, tile_xr, tile_yr, tile_x, tile_y)
+			tile.click( self, tile_xr, tile_yr, tile_x, tile_y, dir)
 
 	def _load(self, circuit, level):
 		fullname = os.path.join(circuit[0], circuit[1])
@@ -1460,10 +1471,16 @@ class Board:
 						toggle_sound()
 
 				elif event.type == MOUSEBUTTONDOWN:
-					if self.paused:
+					if event.button == 4 or event.button == 5:
+#						print("Play Level MB Scrolling up or down.", event.button)
+						pass
+					elif self.paused and not (event.button == 4 or event.button == 5):
 						self.paused = 0
 						popdown( pause_popup)
-					else: self.click( pygame.mouse.get_pos())
+					else: self.click( pygame.mouse.get_pos(), None)
+				elif event.type == MOUSEWHEEL:
+#					print("Play Level MW Scrolling up or down.", event.y)
+					self.click( pygame.mouse.get_pos(), event.y)
 
 			if not self.paused: self.update()
 
@@ -1777,7 +1794,10 @@ class Game:
 						continue
 					return 1
 				elif event.type == MOUSEBUTTONDOWN:
-					return 1
+					if event.button == 4 or event.button == 5:
+						continue
+					else:
+						return 1
 
 def translate_key( key, shift_state):
 	if shift_state:
@@ -2111,9 +2131,9 @@ class IntroScreen:
 							self.draw_menu()
 					continue
 				elif event.type == MOUSEBUTTONDOWN:
-					print("Mouse Button Menu Event", event)
+#					print("Mouse Button Menu Event", event)
 					if event.button == 4 or event.button == 5:
-						print("  Scrolling up or down.", event.button)
+#						print("  Scrolling up or down.", event.button)
 						continue
 					if self.curpage == 1:
 						self.go_to_main_menu()
@@ -2131,16 +2151,16 @@ class IntroScreen:
 					rc = self.menu_select( i)
 					if rc: return rc
 				elif event.type == MOUSEWHEEL:
-					print("Mouse Wheel Menu Event", event)
+#					print("Mouse Wheel Menu Event", event)
 					if event.y == -1:
-						print("  Scrolling down.")
+#						print("  Scrolling down.")
 						self.menu_cursor += 1
 						play_sound( menu_scroll)
 						if self.menu_cursor == len(self.menu):
 							self.menu_cursor = 0
 						self.draw_menu()
 					elif event.y == 1:
-						print("  Scrolling up.")
+#						print("  Scrolling up.")
 						self.menu_cursor -= 1
 						play_sound( menu_scroll)
 						if self.menu_cursor < 0:    

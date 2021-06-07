@@ -1,7 +1,10 @@
 # IN PROGRESS
-- Trying for mouse wheel support - Moving over a wheel on the
-  screen and any movement of the mouse wheel is detected and
-  turns the wheel on the screen one direction or the other.
+- Mouse wheel support - When moving over a wheel on the screen
+  any rotation of the mouse wheel is detected and turns the wheel
+  one direction.  I'd like to figure out how to rotate the wheels
+  in either direction based upon the direction of the mouse 
+  wheel, but that isn't working yet.  Some other bugs still 
+  remain for me to figure out.
 
 # MY WISHLIST
 - A python3 version already is available in Debian so this is 
@@ -9,6 +12,7 @@
 - The level editor is nice and should be added to Debian somehow.
 
 # CHANGES
+- Use Q to quit game (along with Escape and closing the window).
 - Adds ability to play different levelsets to original game
 - Adds a level editor to original game
 - Adds hotkeys to increase/decrease music volume: '+' and '-'
