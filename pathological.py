@@ -977,7 +977,8 @@ class Board:
 			# Compute a hash of the current level, involving
 			# a static timestamp.  This provides a consistent,
 			# backtrackable pseudo-random function.
-			hash = hashlib.md5(repr(game.gamestart)+"/"+repr(game.level)).digest()
+			hashfloater = str(float(game.gamestart) / float(game.level))
+			hash = hashlib.md5(hashfloater.encode('utf-8')).hexdigest()
 			hashval = (ord(hash[0]) + (ord(hash[1]) << 8) + \
 				(ord(hash[2]) << 16) + (ord(hash[3]) << 24)) & 32767;
 			self._load( game.circuit, hashval % game.numlevels);
